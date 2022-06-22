@@ -1,6 +1,7 @@
+const {rooms} = require('./rooms');
 const users=[]
 
-const addUser=({id,username,room})=>{
+const addUser=({id,username,creator,room})=>{
     username=username.trim().toLowerCase()
     room=room.trim().toLowerCase()
 
@@ -13,6 +14,14 @@ const addUser=({id,username,room})=>{
     const existingUser=users.find((user)=>{
         return user.room===room && user.username===username
     })
+    const existingRoom = rooms.find((liveRoom) => {
+        return liveRoom.name === room && creator === 'true'
+     })
+     if (existingRoom) {
+        return {
+            error: 'That room already exists!'
+        }
+    }
     if(existingUser){
         return{
             error:'Username already exists !'
@@ -49,5 +58,6 @@ module.exports={
     addUser,
     removeUser,
     getUser,
-    getUsersInRoom
+    getUsersInRoom,
+    users
 }

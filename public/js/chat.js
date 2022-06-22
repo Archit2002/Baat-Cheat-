@@ -9,7 +9,7 @@ const $messageTemplate=document.querySelector('#message-template').innerHTML
 const $locationMessageTemplate=document.querySelector('#location-message-template').innerHTML
 const $sidebarTemplate=document.querySelector('#sidebar-template').innerHTML
 
-const {username,room}= Qs.parse(location.search,{ignoreQueryPrefix :true})
+const {username,creator,room}= Qs.parse(location.search,{ignoreQueryPrefix :true})
 
 const autoscroll=()=>{
     const $newMessage=$messages.lastElementChild
@@ -82,7 +82,7 @@ $sendLocationButton.addEventListener('click',()=>{
     })
 })
 
-socket.emit('join',{username,room},(error)=>{
+socket.emit('join',{username,creator,room},(error)=>{
     if(error){
         alert(error)
         location.href='/'

@@ -6,6 +6,7 @@ const Filter=require('bad-words')
 const {generateMessage}=require('./utils/messages.js')
 const {generateLocationMessage}=require('./utils/messages.js')
 const {addUser,removeUser,getUser,getUsersInRoom}=require('./utils/users.js')
+const { addRoom, recountRoom, generateRooms } = require('./utils/rooms.js')
 
 const app=express()
 const server=http.createServer(app)
@@ -16,10 +17,10 @@ app.use(express.static(publicDirectoryPath))
 
 io.on('connection',(socket)=>{
     console.log('web socket connection')
-    
+    io.emit('currentRooms', generateRooms());
 
-    socket.on('join',({username,room},callback)=>{
-       const {error,user}= addUser({id:socket.id,username,room})
+    socket.on('join',({username,creator,room},callback)=>{
+       const {error,user}= addUser({id:socket.id,username,creator,room})
        if(error){
         return callback(error)
        }
@@ -31,6 +32,7 @@ io.on('connection',(socket)=>{
             room:user.room,
             users:getUsersInRoom(user.room)
         })
+        io.emit('currentRooms', addRoom( { room } ));
 
         callback()
     })
@@ -53,6 +55,7 @@ io.on('connection',(socket)=>{
     socket.on('disconnect',()=>{
         const user=removeUser(socket.id)
         if(user){
+            io.emit('currentRooms', recountRoom(user.room));
             io.to(user.room).emit('message',generateMessage('Admin', user.username +' got bored and has left ! '))
             io.to(user.room).emit('roomData',{
                 room:user.room,

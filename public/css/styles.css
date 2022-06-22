@@ -72,6 +72,7 @@ button:disabled {
     background: #F7F7FA;
     padding: 24px;
     width: 250px;
+    margin: 30px;
 }
 
 .centered-form button {
@@ -180,4 +181,33 @@ button:disabled {
     list-style-type: none;
     font-weight: 300;
     padding: 12px 24px 0 24px;
+}
+
+/* CURRENT ROOMS*/
+
+.rooms-list {
+    list-style-type: none;
+}
+
+.rooms-list li {
+    margin-bottom: 5px;
+}
+
+.rooms-list li input {
+    color: #6b47b8;
+    background-color: #F7F7FA;
+    border-color: #6b47b8;
+    border: solid;
+    border-width: 2px;
+    border-radius: 50px;
+}
+
+.rooms-list li input:hover {
+    color: #F7F7FA;
+    background-color: #6b47b8;
+    border-color: #6b47b8;
+    border: solid;
+    border-width: 2px;
+    border-radius: 50px;
+    transition: 0.3s;
 }
